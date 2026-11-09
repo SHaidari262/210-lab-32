@@ -8,41 +8,35 @@ using namespace std;
 
 int main() {
     const int initial_cars = 2;
+    const int num_lanes = 4;
 
-    deque<Car> tollLane;
+    deque<Car> tollLanes[num_lanes];
 
-    tollLane.push_back(Car());
-    tollLane.push_back(Car());
+ 
+    //milestone 3: add tow cars to each of the four toll lanes
+    for (int i = 0; i < num_lanes; i++) {
+        for (int j = 0; j < initial_cars; j++) {
+            tollLanes[i].push_back(Car());
+        }
+    }
 
     cout << "Initial queue:" << endl;
-    for (Car& car : tollLane) {
-        car.print();
-}
 
+    for (int i = 0; i < num_lanes; i++) {
+        cout << "Lane " << i + 1 << ":" << endl;
 
-// add this line here 
-cout << "number of cars in the queue: " << tollLane.size() << endl;
-    
-
-    //add the new code here
-   while (!tollLane.empty()) {
-    int chance = rand() % 100; // Random number between 0 and 99
-
-    if (chance < 55) {
-        cout << "A car paid and left." << endl;
-        tollLane.pop_front(); 
-    }else {
-        cout << "A new car arrived." << endl;
-        tollLane.push_back(Car());
+        for (Car& car : tollLanes[i]) {
+            car.print();
+        }
+        cout << endl;
     }
 
-    cout << "Cars waiting: " << tollLane.size() << endl;
-
-    for (Car& car : tollLane) {
-        car.print();
+    // Test all four lanes
+    for (int i = 0; i < num_lanes; i++) {
+        cout << "Lane " << i + 1
+             << " has " << tollLanes[i].size()
+             << " car(s)." << endl;
     }
 
-}
-
-return 0;
+    return 0;
 }
