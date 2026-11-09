@@ -44,17 +44,46 @@ cout << endl;
     for (int time =1; time <= time_periods; time++) {
         cout << "\nTime Period " << time << endl;
     
-    for (int i= 0; i < num_lanes; i++) {
-        int chance = rand() % 100;
+     for (int i = 0; i < num_lanes; i++) {
+    int chance = rand() % 100;
 
-        if (chance < 50 && !tollLanes[i].empty()) {
+    // Milestone 5: Handle empty lanes
+    if (tollLanes[i].empty()) {
+        if (rand() % 100 < 50) {
+            tollLanes[i].push_back(Car());
+            cout << "Lane " << i + 1
+                 << ": New car joined empty lane." << endl;
+        } else {
+            cout << "Lane " << i + 1
+                 << ": Empty lane, no action." << endl;
+        }
+        continue;
+    }
+
+    if (chance < 46 && !tollLanes[i].empty()) {
             tollLanes[i].pop_front();
             cout << "Lane " << i + 1
                  << ": Car paid and left the toll lane." << endl;
-        } else {
+        } else if (chance < 85) {
             tollLanes[i].push_back(Car());
             cout << "Lane " << i + 1
                  << ": New car joined." << endl;
+
+       } else {
+           if (!tollLanes[i].empty()) {
+               int newLane = rand() % num_lanes;
+
+               while (newLane == i) {
+                     newLane = rand() % num_lanes;
+        }
+
+        Car movingCar = tollLanes[i].back();
+        tollLanes[i].pop_back();
+        tollLanes[newLane].push_back(movingCar);
+
+        cout << "Car switched from Lane " << i + 1
+             << " to Lane " << newLane + 1 << endl;
+    }
         }
     }  // End of lane loop
 }      // End of time period loop
